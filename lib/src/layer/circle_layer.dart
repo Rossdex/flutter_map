@@ -66,7 +66,10 @@ class CircleLayer extends StatelessWidget {
           circleWidgets.add(
             GestureDetector(
               onTap: () {
-                print(['tap tap tap circle', circle]);
+                print([
+                  'tap tap tap circle',
+                  circle.point.latitude
+                ]);
               },
               child: CustomPaint(
                 painter: CirclePainter(circle),

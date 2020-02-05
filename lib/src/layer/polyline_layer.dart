@@ -79,7 +79,7 @@ class PolylineLayer extends StatelessWidget {
                     print(
                       [
                         'tap tap tap line',
-                        polylineOpt
+                        polylineOpt.points[0].latitude
                       ],
                     );
                   },
