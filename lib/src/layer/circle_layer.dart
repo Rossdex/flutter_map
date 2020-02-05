@@ -7,8 +7,7 @@ import 'package:latlong/latlong.dart' hide Path; // conflict with Path from UI
 
 class CircleLayerOptions extends LayerOptions {
   final List<CircleMarker> circles;
-  CircleLayerOptions({this.circles = const [], rebuild})
-      : super(rebuild: rebuild);
+  CircleLayerOptions({this.circles = const [], rebuild}) : super(rebuild: rebuild);
 }
 
 class CircleMarker {
@@ -53,23 +52,26 @@ class CircleLayer extends StatelessWidget {
         var circleWidgets = <Widget>[];
         for (var circle in circleOpts.circles) {
           var pos = map.project(circle.point);
-          pos = pos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
-              map.getPixelOrigin();
+          pos = pos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) - map.getPixelOrigin();
           circle.offset = Offset(pos.x.toDouble(), pos.y.toDouble());
 
           if (circle.useRadiusInMeter) {
             var r = Distance().offset(circle.point, circle.radius, 180);
             var rpos = map.project(r);
-            rpos = rpos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) -
-                map.getPixelOrigin();
+            rpos = rpos.multiplyBy(map.getZoomScale(map.zoom, map.zoom)) - map.getPixelOrigin();
 
             circle.realRadius = rpos.y - pos.y;
           }
 
           circleWidgets.add(
-            CustomPaint(
-              painter: CirclePainter(circle),
-              size: size,
+            GestureDetector(
+              onTap: () {
+                print(['tap tap tap circle', circle]);
+              },
+              child: CustomPaint(
+                painter: CirclePainter(circle),
+                size: size,
+              ),
             ),
           );
         }
@@ -96,8 +98,7 @@ class CirclePainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..color = circle.color;
 
-    _paintCircle(canvas, circle.offset,
-        circle.useRadiusInMeter ? circle.realRadius : circle.radius, paint);
+    _paintCircle(canvas, circle.offset, circle.useRadiusInMeter ? circle.realRadius : circle.radius, paint);
 
     if (circle.borderStrokeWidth > 0) {
       final paint = Paint()
@@ -105,8 +106,7 @@ class CirclePainter extends CustomPainter {
         ..color = circle.borderColor
         ..strokeWidth = circle.borderStrokeWidth;
 
-      _paintCircle(canvas, circle.offset,
-          circle.useRadiusInMeter ? circle.realRadius : circle.radius, paint);
+      _paintCircle(canvas, circle.offset, circle.useRadiusInMeter ? circle.realRadius : circle.radius, paint);
     }
   }
 
