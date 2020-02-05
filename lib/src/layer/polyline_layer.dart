@@ -74,19 +74,9 @@ class PolylineLayer extends StatelessWidget {
           child: Stack(
             children: [
               for (final polylineOpt in polylineOpts.polylines)
-                GestureDetector(
-                  onTap: () {
-                    print(
-                      [
-                        'tap tap tap line',
-                        polylineOpt.points[0].latitude
-                      ],
-                    );
-                  },
-                  child: CustomPaint(
-                    painter: PolylinePainter(polylineOpt),
-                    size: size,
-                  ),
+                CustomPaint(
+                  painter: PolylinePainter(polylineOpt),
+                  size: size,
                 ),
             ],
           ),

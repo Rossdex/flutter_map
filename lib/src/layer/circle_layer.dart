@@ -64,18 +64,10 @@ class CircleLayer extends StatelessWidget {
           }
 
           circleWidgets.add(
-            GestureDetector(
-              onTap: () {
-                print([
-                  'tap tap tap circle',
-                  circle.point.latitude
-                ]);
-              },
-              child: CustomPaint(
+            CustomPaint(
                 painter: CirclePainter(circle),
                 size: size,
               ),
-            ),
           );
         }
 
@@ -88,6 +80,15 @@ class CircleLayer extends StatelessWidget {
     );
   }
 }
+
+//  GestureDetector(
+//               onTap: () {
+//                 print([
+//                   'tap tap tap circle',
+//                   circle.point.latitude
+//                 ]);
+//               },
+//               child:
 
 class CirclePainter extends CustomPainter {
   final CircleMarker circle;
@@ -115,6 +116,18 @@ class CirclePainter extends CustomPainter {
 
   void _paintCircle(Canvas canvas, Offset offset, double radius, Paint paint) {
     canvas.drawCircle(offset, radius, paint);
+  }
+  
+  @override
+  bool hitTest(Offset position) {
+    final Offset center = Offset(200, 200);
+    Path path = Path();
+    path.addRRect(RRect.fromRectAndRadius(
+        Rect.fromCenter(center: center, width: 400, height: 400),
+        Radius.circular(center.dx)));
+    path.close();
+    print(path.contains(position));
+    return path.contains(position);
   }
 
   @override
